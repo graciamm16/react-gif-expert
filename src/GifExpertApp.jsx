@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {AddCategory, GifGrid} from './components';
 
 export const GifExpertApp = () => {
@@ -16,7 +16,17 @@ export const GifExpertApp = () => {
         //... Copia de las categorias y añado la nueva categoria
         setCategories([newCategory, ...categories]);
         // setCategories(cat => [...categories, 'Valorant']);
-    }  
+    }
+
+    //Agregar una categoría
+    useEffect(() => {
+        onAddCategory('Naruto');
+    }, []);
+
+    //Eliminar una categoría
+    const onRemoveCategory = (categoryToRemove) => {
+        setCategories(categories.filter(category => category !== categoryToRemove));
+    };
 
     return(
         <>
@@ -28,10 +38,13 @@ export const GifExpertApp = () => {
 
             {
                 categories.map((category) => (
-                    <GifGrid 
-                        key={category} 
-                        category={category}
-                    />
+                    <div key={category}>
+                        <GifGrid
+                            key={category}
+                            category={category}
+                        />
+                        <button onClick={() => onRemoveCategory(category)}>Eliminar</button>
+                    </div>
                 ))
             }
         </>
